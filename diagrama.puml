@@ -1,0 +1,97 @@
+@startuml
+
+' ========== CLASES PRINCIPALES ==========
+
+class CalculatorApplication {
+    +void start(Stage stage)
+}
+
+class Main {
+    +void main(String[] args)
+}
+
+class Controller {
+    -GridPane chessBoard
+    +void initialize()
+}
+
+class Game {
+    +static Piece currentPiece
+    +static String currentPlayer
+    +static ChessBoard cb
+    -boolean game
+    +Game(GridPane chessBoard, String theme)
+    -void addEventHandlers(GridPane chessBoard)
+    -void selectPiece(boolean game)
+    -void deselectPiece(boolean changePlayer)
+    -void dropPiece(Square square)
+    -void killPiece(Square square)
+}
+
+class ChessBoard {
+    -GridPane chessBoard
+    -String theme
+    +ArrayList<Square> squares
+    +ChessBoard(GridPane chessBoard, String theme)
+    -void makeBoard(GridPane chessBoard, String theme)
+    -void setTheme(Square square, String theme, int i, int j)
+    -void addPiece(Square square, Piece piece)
+    -void addPieces()
+}
+
+class Square {
+    +String name
+    +int x
+    +int y
+    +boolean occupied
+    +Square(int x, int y)
+    +void setName(String name)
+}
+
+class Piece extends ImageView {
+    #String type
+    #String color
+    #int posX
+    #int posY
+    #ArrayList<String> possibleMoves
+    +Piece(String color, int posX, int posY)
+    +String getColor()
+    +void setPiece(Image image)
+    +void setImage()
+    +void getAllPossibleMoves()
+    +void showAllPossibleMoves(boolean val)
+    +Square getSquareByName(String name)
+    +Piece getPieceByName(String name)
+    +String toString()
+}
+
+class King extends Piece {
+    +King(String color, int posX, int posY)
+    +void getAllPossibleMoves()
+}
+
+class CalculatorController {
+    -TextField txtField
+    -static String cadena_entrada
+    -static String cadena_salida
+    -static String button_string
+    -boolean primera
+    -void casoAC()
+    -void caso0()
+    -void casoNumero()
+    -void casoComa()
+    -static void casoOperador()
+    -static void casoIgual()
+    +void onEveryButtonClick(ActionEvent actionEvent)
+}
+
+' ========== RELACIONES ENTRE CLASES ==========
+
+Main --> CalculatorApplication : calls
+Controller --> Game : creates
+Game *-- ChessBoard : cb
+ChessBoard *-- Square : squares
+Square o-- Piece : contains
+Piece <|-- King
+
+@enduml
